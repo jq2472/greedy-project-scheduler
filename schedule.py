@@ -21,6 +21,7 @@ def get_list(data):
     """
     projects = []
     with open(data) as f:
+        next(f)
         for line in f:
             info = line.strip()
             project_name, length, revenue = info.split()
@@ -96,22 +97,27 @@ def main():
     data = input("Enter the project filename: ")
     deadline = int(input("Enter the length of the period (weeks): "))
     data = get_list(data)  # read file and get data
+
     # initial projects
     print("\ninitial projects:")
-    for i in data:
-        print(i.project_name, i.length, i.revenue)
+    for stat in data:
+        print(stat.project_name, stat.length, stat.revenue)
+
     # projects organized by rev/week
     print("\nprojects organized by rev/week:")
     data = insertion_sort(data)  # sort data by rev/week
-    for i in data:
-        print(i.project_name, i.length, i.revenue)
+    for stat in data:
+        print(stat.project_name, stat.length, stat.revenue)
+
     # scheduled only
     print("\nschedule:")
     projects, revenue, length = most_revenue(data, deadline)
     for i in range(len(projects)):
         pprint(projects[i])  # projects that fit the deadline w the most revenue
+
     # total revenue
     print("\n"+f"Total revenue: ${revenue}")
+
     # unscheduled weeks
     unused = deadline - length
     print("\nUnscheduled weeks: " + str(unused))
